@@ -7,7 +7,7 @@ tags: [Demo, Security, Encryption, Markdown]
 category: Examples
 lang: en
 encrypted: true
-password: "shirone-secret"
+password: "123456"
 passwordHint: "Hint: the demo unlock password is shirone-secret"
 hideHomeContent: true
 ---
