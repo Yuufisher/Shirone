@@ -1,5 +1,5 @@
 ---
-title: "Shirone Authoring & Usage Guide"
+title: "Shirone Authoring & Usage Guide😊"
 published: 2026-08-26
 updated: 2026-08-26
 pinned: true
