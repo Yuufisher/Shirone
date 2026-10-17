@@ -3,3 +3,15 @@
   需要在 src/config/footerConfig.ts 中保持 enable: true；
   内容将注入在页脚版权信息上方；若文件留空或仅保留注释，则不会产生任何额外的 DOM 结构。
 -->
+  <div style="text-align: center;font-size: 0.85em;opacity: 0.75;">
+    <span id="site-days"></span>
+  </div>
+  <script>
+    const start=new Date('2026-08-07').getTime();
+    const el=document.getElementById('site-days');
+    const Update=()=>{
+      el.textContent=Math.floor((Date.now()()-start)/86400000);
+    }
+    Update();
+    setInterval(Update,3600000);
+  </script>
