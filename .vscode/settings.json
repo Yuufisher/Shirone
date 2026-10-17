@@ -148,5 +148,6 @@
       "config/series.yaml",
       "config/series.yml"
     ]
-  }
+  },
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }
