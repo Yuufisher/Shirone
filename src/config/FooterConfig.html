@@ -10,7 +10,7 @@
     const start=new Date('2026-08-07').getTime();
     const el=document.getElementById('site-days');
     const Update=()=>{
-      el.textContent=Math.floor((Date.now()()-start)/86400000);
+      el.textContent=Math.floor((Date.now()-start)/86400000);
     }
     Update();
     setInterval(Update,3600000);
