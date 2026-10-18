@@ -10,6 +10,7 @@ encrypted: true
 password: "123456"
 passwordHint: "Hint: the demo unlock password is 123456"
 hideHomeContent: true
+draft: true
 ---
 
 # Password Protected Article
