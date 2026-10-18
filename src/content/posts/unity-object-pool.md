@@ -1,5 +1,5 @@
 ---
-title: "手写一个 Unity 对象池：从频繁 Instantiate 到复用之道"
+title: "手搓一个轻量级 Unity 对象池"
 published: 2026-10-18
 updated: 2026-10-18
 description: "介绍一套轻量级 Unity 对象池的实现：PoolableBehaviour 基类约定、双集合 O(1) 存取的 ObjectPool 池体、PoolManager 全局管理器，以及一个带物理重置的池化投掷物示例。"
@@ -32,21 +32,20 @@ draft: false
 
 ```mermaid
 flowchart TD
-    A["PoolManager.Spawn(key, parent)"] --> B{"对应的池已存在?"}
-    B -- "否" --> C["创建池 + 按 prewarm 预热实例"]
-    B -- "是" --> D{"空闲栈里有实例?"}
-    C --> D
-    D -- "有" --> E["TryPop 复用空闲实例"]
-    D -- "空" --> F["Instantiate 现场扩容"]
-    E --> G["登记进激活集<br/>SetActive(true)<br/>item.Spawn() 业务初始化"]
-    F --> G
-    G --> H(("投入使用"))
-    H --> I["PoolManager.Despawn(this)"]
-    I --> J["经 Owner 找到所属池<br/>item.Despawn() 状态归零<br/>移出激活集"]
-    J --> K{"空闲数超过 maxSize?"}
-    K -- "否" --> L["SetActive(false)<br/>压回空闲栈"]
-    K -- "是" --> M["Destroy 销毁削峰"]
-    L -. "下次 Spawn 再次取出" .-> D
+    accTitle: 对象池的生成与归还循环
+    accDescr: 调用方按 key 生成对象，池优先复用空闲实例，不足时现场扩容。归还时先复位状态再压回空闲栈，空闲数超过上限则直接销毁。
+    A[Spawn 按 key 生成] -->|池不存在| B[创建池并预热]
+    A -->|池已存在| C{空闲栈有实例}
+    B --> C
+    C -->|有| D[TryPop 复用空闲实例]
+    C -->|空| E[Instantiate 扩容]
+    D --> F[加入激活集并初始化]
+    E --> F
+    F --> G[投入使用]
+    G -->|到期自动归还| H[Despawn 状态归零]
+    H -->|未超上限| I[压回空闲栈]
+    H -->|超过 maxSize| J[销毁削峰]
+    I -.->|下次 Spawn 再次取出| C
 ```
 
 ---
@@ -240,7 +239,7 @@ public class PooledCast : PoolableBehaviour
 由于基类已经处理掉了绑定关系，新增一个池化类型只需要写这两个方法——没有接口样板，没有 `owner` / `Bind` / `GetPool` 三件套。
 
 :::tip
-带 `Rigidbody` 的池化物体是最容易踩坑的一类：如果回收时不清空 `linearVelocity` 和 `angularVelocity`，下次取出时物体会带着上一次的运动状态"甩出去"。所有累积状态都必须在 `Despawn` 里显式复位。
+产生脏数据,如果销毁或生成时不进行数据的清空和初始化,下次生成对象时会带着上一次的状态。
 :::
 
 ---
