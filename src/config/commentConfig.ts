@@ -49,7 +49,7 @@ export const commentConfig: CommentConfig = withUserConfig("comment", {
 	/** Giscus 专有配置（基于 GitHub Discussions，评论数据存储在公开仓库中） */
 	giscus: {
 		/** 公开仓库，格式 "owner/repo"（必填） */
-		repo: "owner/repo",
+		repo: "Yuufisher/ShironeComments",
 		/** 仓库 ID，从 giscus.app 配置生成器获取（必填） */
 		repoId: "R_kgDOVUM55w",
 		/** Discussion 分类名，如 "Announcements"；留空表示不限制分类搜索范围 */
