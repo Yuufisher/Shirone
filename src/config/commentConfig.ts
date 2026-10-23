@@ -53,9 +53,9 @@ export const commentConfig: CommentConfig = withUserConfig("comment", {
 		/** 仓库 ID，从 giscus.app 配置生成器获取（必填） */
 		repoId: "R_kgDOVUM55w",
 		/** Discussion 分类名，如 "Announcements"；留空表示不限制分类搜索范围 */
-		category: "Announcements",
+		category: "General",
 		/** 分类 ID，从 giscus.app 配置生成器获取（必填） */
-		categoryId: "DIC_kwDOVUM5584DJYeD",
+		categoryId: "DIC_kwDOVUM5584DJYeE",
 		/** 页面 ↔ Discussion 映射：pathname（默认）/ url / title / og:title / specific / number */
 		mapping: "pathname",
 		/** 严格标题匹配（SHA-1 校验），避免 GitHub 模糊搜索误配相似标题 */
